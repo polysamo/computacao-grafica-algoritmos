@@ -15,10 +15,10 @@ const algoritmos = {
       { rotulo: 'Ponto B', idX: 'bx', idY: 'by' }
     ],
     executar: function () {
-      const ax = Number(document.getElementById('ax').value);
-      const ay = Number(document.getElementById('ay').value);
-      const bx = Number(document.getElementById('bx').value);
-      const by = Number(document.getElementById('by').value);
+      const ax = lerNumeroCampo('ax');
+      const ay = lerNumeroCampo('ay');
+      const bx = lerNumeroCampo('bx');
+      const by = lerNumeroCampo('by');
 
       const erroA = validarPonto(ax, ay);
       const erroB = validarPonto(bx, by);
@@ -28,10 +28,6 @@ const algoritmos = {
       limparErro();
       const cor = document.getElementById('corTraco').value;
       bresenham(ax, ay, bx, by, cor);
-
-      // realça os pontos de entrada em uma cor distinta, por cima da reta
-      setPixel(ax, ay, COR_PONTOS_CONTROLE);
-      setPixel(bx, by, COR_PONTOS_CONTROLE);
     }
   },
 
@@ -62,9 +58,9 @@ const algoritmos = {
       { rotulo: 'P2 (fim)', idX: 'q2x', idY: 'q2y' }
     ],
     executar: function () {
-      const p0 = { x: Number(document.getElementById('q0x').value), y: Number(document.getElementById('q0y').value) };
-      const p1 = { x: Number(document.getElementById('q1x').value), y: Number(document.getElementById('q1y').value) };
-      const p2 = { x: Number(document.getElementById('q2x').value), y: Number(document.getElementById('q2y').value) };
+      const p0 = { x: lerNumeroCampo('q0x'), y: lerNumeroCampo('q0y') };
+      const p1 = { x: lerNumeroCampo('q1x'), y: lerNumeroCampo('q1y') };
+      const p2 = { x: lerNumeroCampo('q2x'), y: lerNumeroCampo('q2y') };
 
       const erro = validarPonto(p0.x, p0.y) || validarPonto(p1.x, p1.y) || validarPonto(p2.x, p2.y);
       if (erro) { mostrarErro(erro); return; }
@@ -84,10 +80,10 @@ const algoritmos = {
       { rotulo: 'P3 (fim)', idX: 'c3x', idY: 'c3y' }
     ],
     executar: function () {
-      const p0 = { x: Number(document.getElementById('c0x').value), y: Number(document.getElementById('c0y').value) };
-      const p1 = { x: Number(document.getElementById('c1x').value), y: Number(document.getElementById('c1y').value) };
-      const p2 = { x: Number(document.getElementById('c2x').value), y: Number(document.getElementById('c2y').value) };
-      const p3 = { x: Number(document.getElementById('c3x').value), y: Number(document.getElementById('c3y').value) };
+      const p0 = { x: lerNumeroCampo('c0x'), y: lerNumeroCampo('c0y') };
+      const p1 = { x: lerNumeroCampo('c1x'), y: lerNumeroCampo('c1y') };
+      const p2 = { x: lerNumeroCampo('c2x'), y: lerNumeroCampo('c2y') };
+      const p3 = { x: lerNumeroCampo('c3x'), y: lerNumeroCampo('c3y') };
 
       const erro = validarPonto(p0.x, p0.y) || validarPonto(p1.x, p1.y) ||
                    validarPonto(p2.x, p2.y) || validarPonto(p3.x, p3.y);
@@ -108,8 +104,8 @@ const algoritmos = {
       { id: 'rotYOrto', tipo: 'slider', rotulo: 'Rotação Y (°)', min: 0, max: 360, step: 1, valor: 35 }
     ],
     executar: function () {
-      const rotX = Number(document.getElementById('rotXOrto').value);
-      const rotY = Number(document.getElementById('rotYOrto').value);
+      const rotX = lerNumeroCampo('rotXOrto');
+      const rotY = lerNumeroCampo('rotYOrto');
       const cor = document.getElementById('corTraco').value;
 
       limparErro();
@@ -129,10 +125,10 @@ const algoritmos = {
       { id: 'anguloObl', tipo: 'slider', rotulo: 'Ângulo de projeção (°)', min: 0, max: 90, step: 1, valor: 45 }
     ],
     executar: function () {
-      const rotX = Number(document.getElementById('rotXObl').value);
-      const rotY = Number(document.getElementById('rotYObl').value);
-      const fator = Number(document.getElementById('fatorObl').value);
-      const angulo = Number(document.getElementById('anguloObl').value);
+      const rotX = lerNumeroCampo('rotXObl');
+      const rotY = lerNumeroCampo('rotYObl');
+      const fator = lerNumeroCampo('fatorObl');
+      const angulo = lerNumeroCampo('anguloObl');
       const cor = document.getElementById('corTraco').value;
 
       limparErro();
@@ -151,9 +147,9 @@ const algoritmos = {
       { id: 'distanciaD', tipo: 'slider', rotulo: 'Distância d do observador', min: 10, max: 40, step: 1, valor: 10 }
     ],
     executar: function () {
-      const rotX = Number(document.getElementById('rotXPer').value);
-      const rotY = Number(document.getElementById('rotYPer').value);
-      const d = Number(document.getElementById('distanciaD').value);
+      const rotX = lerNumeroCampo('rotXPer');
+      const rotY = lerNumeroCampo('rotYPer');
+      const d = lerNumeroCampo('distanciaD');
       const cor = document.getElementById('corTraco').value;
 
       limparErro();
@@ -201,8 +197,13 @@ const algoritmos = {
       const resultado = interpretarListaPontos(texto, 3);
       if (resultado.erro) { mostrarErro(resultado.erro); return; }
 
-      const dx = Number(document.getElementById('transDx').value);
-      const dy = Number(document.getElementById('transDy').value);
+      const dx = lerNumeroCampo('transDx');
+      const dy = lerNumeroCampo('transDy');
+
+      if (![dx, dy].every(Number.isFinite)) {
+        mostrarErro('Preencha dx e dy da translação.');
+        return;
+      }
 
       limparErro();
       const cor = document.getElementById('corTraco').value;
@@ -229,10 +230,17 @@ const algoritmos = {
       const resultado = interpretarListaPontos(texto, 3);
       if (resultado.erro) { mostrarErro(resultado.erro); return; }
 
-      const sx = Number(document.getElementById('escalaSx').value);
-      const sy = Number(document.getElementById('escalaSy').value);
-      const fixoX = Number(document.getElementById('escalaFixoX').value);
-      const fixoY = Number(document.getElementById('escalaFixoY').value);
+      const sx = lerNumeroCampo('escalaSx');
+      const sy = lerNumeroCampo('escalaSy');
+      const fixoX = lerNumeroCampo('escalaFixoX');
+      const fixoY = lerNumeroCampo('escalaFixoY');
+
+      if (!Number.isFinite(sx) || !Number.isFinite(sy) || sx <= 0 || sy <= 0) {
+        mostrarErro('Os fatores sx e sy devem ser números positivos.');
+        return;
+      }
+      const erroFixo = validarPonto(fixoX, fixoY);
+      if (erroFixo) { mostrarErro(erroFixo); return; }
 
       limparErro();
       const cor = document.getElementById('corTraco').value;
@@ -258,9 +266,16 @@ const algoritmos = {
       const resultado = interpretarListaPontos(texto, 3);
       if (resultado.erro) { mostrarErro(resultado.erro); return; }
 
-      const angulo = Number(document.getElementById('rotacaoAngulo').value);
-      const pivoX = Number(document.getElementById('rotacaoPivoX').value);
-      const pivoY = Number(document.getElementById('rotacaoPivoY').value);
+      const angulo = lerNumeroCampo('rotacaoAngulo');
+      const pivoX = lerNumeroCampo('rotacaoPivoX');
+      const pivoY = lerNumeroCampo('rotacaoPivoY');
+
+      if (!Number.isFinite(angulo)) {
+        mostrarErro('Preencha o ângulo de rotação.');
+        return;
+      }
+      const erroPivo = validarPonto(pivoX, pivoY);
+      if (erroPivo) { mostrarErro(erroPivo); return; }
 
       limparErro();
       const cor = document.getElementById('corTraco').value;
@@ -277,9 +292,9 @@ const algoritmos = {
       { id: 'raio', rotulo: 'Raio', min: 1, max: 15, step: 1, valor: 5 }
     ],
     executar: function () {
-      const cx = Number(document.getElementById('ccx').value);
-      const cy = Number(document.getElementById('ccy').value);
-      const raio = Number(document.getElementById('raio').value);
+      const cx = lerNumeroCampo('ccx');
+      const cy = lerNumeroCampo('ccy');
+      const raio = lerNumeroCampo('raio');
 
       const erroCentro = validarPonto(cx, cy);
       if (erroCentro) { mostrarErro(erroCentro); return; }
@@ -304,10 +319,10 @@ const algoritmos = {
       { id: 'elRaioY', rotulo: 'Raio Y', min: 1, max: 15, step: 1, valor: 5 }
     ],
     executar: function () {
-      const cx = Number(document.getElementById('elcx').value);
-      const cy = Number(document.getElementById('elcy').value);
-      const raioX = Number(document.getElementById('elRaioX').value);
-      const raioY = Number(document.getElementById('elRaioY').value);
+      const cx = lerNumeroCampo('elcx');
+      const cy = lerNumeroCampo('elcy');
+      const raioX = lerNumeroCampo('elRaioX');
+      const raioY = lerNumeroCampo('elRaioY');
 
       const erroCentro = validarPonto(cx, cy);
       if (erroCentro) { mostrarErro(erroCentro); return; }
@@ -335,14 +350,14 @@ const algoritmos = {
       { id: 'clYmax', rotulo: 'Janela — ymax', min: -10, max: 10, step: 1, valor: 5 }
     ],
     executar: function () {
-      const ax = Number(document.getElementById('clAx').value);
-      const ay = Number(document.getElementById('clAy').value);
-      const bx = Number(document.getElementById('clBx').value);
-      const by = Number(document.getElementById('clBy').value);
-      const xmin = Number(document.getElementById('clXmin').value);
-      const ymin = Number(document.getElementById('clYmin').value);
-      const xmax = Number(document.getElementById('clXmax').value);
-      const ymax = Number(document.getElementById('clYmax').value);
+      const ax = lerNumeroCampo('clAx');
+      const ay = lerNumeroCampo('clAy');
+      const bx = lerNumeroCampo('clBx');
+      const by = lerNumeroCampo('clBy');
+      const xmin = lerNumeroCampo('clXmin');
+      const ymin = lerNumeroCampo('clYmin');
+      const xmax = lerNumeroCampo('clXmax');
+      const ymax = lerNumeroCampo('clYmax');
 
       const erro = validarPonto(ax, ay) || validarPonto(bx, by) || validarJanela(xmin, ymin, xmax, ymax);
       if (erro) { mostrarErro(erro); return; }
@@ -372,10 +387,10 @@ const algoritmos = {
       const resultado = interpretarListaPontos(texto, 3);
       if (resultado.erro) { mostrarErro(resultado.erro); return; }
 
-      const xmin = Number(document.getElementById('rpXmin').value);
-      const ymin = Number(document.getElementById('rpYmin').value);
-      const xmax = Number(document.getElementById('rpXmax').value);
-      const ymax = Number(document.getElementById('rpYmax').value);
+      const xmin = lerNumeroCampo('rpXmin');
+      const ymin = lerNumeroCampo('rpYmin');
+      const xmax = lerNumeroCampo('rpXmax');
+      const ymax = lerNumeroCampo('rpYmax');
 
       const erroJanela = validarJanela(xmin, ymin, xmax, ymax);
       if (erroJanela) { mostrarErro(erroJanela); return; }
@@ -387,16 +402,24 @@ const algoritmos = {
   },
 
   preenchimento: {
-    nome: 'Preenchimento (flood fill)',
+    nome: 'Preenchimento',
     pontos: [
       { rotulo: 'Semente', idX: 'semX', idY: 'semY' }
     ],
     executar: function () {
-      const x = Number(document.getElementById('semX').value);
-      const y = Number(document.getElementById('semY').value);
+      const x = lerNumeroCampo('semX');
+      const y = lerNumeroCampo('semY');
 
       const erro = validarPonto(x, y);
       if (erro) { mostrarErro(erro); return; }
+
+      const temBorda = pintado.some(function (coluna) {
+        return coluna.some(Boolean);
+      });
+      if (!temBorda) {
+        mostrarErro('Desenhe primeiro uma figura fechada e depois escolha uma semente dentro dela.');
+        return;
+      }
 
       const xi = Math.round(x);
       const yi = Math.round(y);

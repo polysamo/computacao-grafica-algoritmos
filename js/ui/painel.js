@@ -27,13 +27,13 @@ function montarPainel(chave) {
     campoX.className = 'campo';
     campoX.innerHTML =
       '<label for="' + pt.idX + '">' + pt.rotulo + ' — x</label>' +
-      '<input type="number" id="' + pt.idX + '" min="-10" max="10" step="1" value="0">';
+      '<input type="number" id="' + pt.idX + '" min="-10" max="10" step="1" value="0" required>';
 
     const campoY = document.createElement('div');
     campoY.className = 'campo';
     campoY.innerHTML =
       '<label for="' + pt.idY + '">' + pt.rotulo + ' — y</label>' +
-      '<input type="number" id="' + pt.idY + '" min="-10" max="10" step="1" value="0">';
+      '<input type="number" id="' + pt.idY + '" min="-10" max="10" step="1" value="0" required>';
 
     linha.appendChild(campoX);
     linha.appendChild(campoY);
@@ -46,7 +46,7 @@ function montarPainel(chave) {
     campo.className = 'campo';
     campo.innerHTML =
       '<label for="' + et.id + '">' + et.rotulo + '</label>' +
-      '<input type="text" id="' + et.id + '" placeholder="' + et.placeholder + '" value="">';
+      '<input type="text" id="' + et.id + '" placeholder="' + et.placeholder + '" value="" required>';
     container.appendChild(campo);
   }
 
@@ -61,7 +61,7 @@ function montarPainel(chave) {
     } else {
       campo.innerHTML =
         '<label for="' + ce.id + '">' + ce.rotulo + '</label>' +
-        '<input type="number" id="' + ce.id + '" min="' + ce.min + '" max="' + ce.max + '" step="' + ce.step + '" value="' + ce.valor + '">';
+        '<input type="number" id="' + ce.id + '" min="' + ce.min + '" max="' + ce.max + '" step="' + ce.step + '" value="' + ce.valor + '" required>';
     }
 
     container.appendChild(campo);

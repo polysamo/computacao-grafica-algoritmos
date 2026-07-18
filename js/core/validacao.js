@@ -12,6 +12,12 @@ function validarPonto(x, y) {
   return null;
 }
 
+function lerNumeroCampo(id) {
+  const campo = document.getElementById(id);
+  const valor = campo ? campo.value.trim() : '';
+  return valor === '' ? NaN : Number(valor);
+}
+
 function mostrarErro(msg) {
   const el = document.getElementById('statusErro');
   el.textContent = msg;
@@ -41,8 +47,8 @@ function interpretarListaPontos(texto, minimo) {
       return { pontos: null, erro: `Ponto inválido: "${parte}". Use o formato x,y.` };
     }
 
-    const x = Number(coords[0]);
-    const y = Number(coords[1]);
+    const x = coords[0] === '' ? NaN : Number(coords[0]);
+    const y = coords[1] === '' ? NaN : Number(coords[1]);
     const erroPonto = validarPonto(x, y);
     if (erroPonto) {
       return { pontos: null, erro: erroPonto };

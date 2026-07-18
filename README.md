@@ -10,11 +10,28 @@ desenhar geometria. Primitivas nativas só desenham a grade, os eixos e os rótu
 
 Antonio Roger Morais, Polyana Moraes
 
-## Como abrir
+## Como executar
 
-Dê duplo clique em [index.html](index.html). Não há servidor, build ou dependência —
-é HTML5 + CSS + JavaScript puro, e os scripts são `<script>` clássicos (sem
-`type="module"`) justamente para funcionar via `file://` em qualquer navegador.
+Abra um terminal na pasta do projeto e rode:
+
+```bash
+npm start
+```
+
+Depois acesse no navegador:
+
+```text
+http://localhost:3000
+```
+
+Também é possível rodar diretamente com Node:
+
+```bash
+node servidor.js
+```
+
+Não há build nem dependências externas: o servidor local apenas entrega os arquivos
+HTML, CSS e JavaScript do projeto.
 
 ## Algoritmos implementados
 

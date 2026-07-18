@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algoritmos de Síntese de Imagem</title>
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <h1>Algoritmos de Síntese de Imagem &mdash; Etapas 1 a 5</h1>
+
+  <div class="container">
+
+    <div class="area-grade">
+      <canvas id="canvasGrade" width="660" height="660"></canvas>
+      <div class="status-coord" id="statusCoord">Coordenada do mundo: (&mdash;, &mdash;)</div>
+    </div>
+
+    <div class="painel">
+      <h2>Parâmetros</h2>
+
+      <div class="campo">
+        <label for="selectAlgoritmo">Algoritmo</label>
+        <select id="selectAlgoritmo"></select>
+      </div>
+
+      <!-- campos específicos de cada algoritmo são inseridos aqui dinamicamente -->
+      <div id="painelCampos"></div>
+
+      <div class="campo campo-cor">
+        <input type="color" id="corTraco" value="#1a73e8">
+        <label for="corTraco" style="margin:0;">Cor do traçado</label>
+      </div>
+
+      <div class="botoes">
+        <button id="btnExecutar" type="button">Executar</button>
+        <button id="btnLimpar" type="button">Limpar grade</button>
+      </div>
+
+      <div class="erro" id="statusErro"></div>
+
+      <div class="legenda">
+        Dica: clique na área de desenho para preencher os pontos na ordem em que aparecem no formulário.
+      </div>
+    </div>
+
+  </div>
+
+  <!--
+    Scripts clássicos (sem type="module") para que o arquivo continue abrindo
+    com duplo clique via file:// em qualquer navegador. A ordem abaixo importa:
+    todos compartilham o mesmo escopo global.
+  -->
+  <script src="js/core/config.js"></script>
+  <script src="js/core/coordenadas.js"></script>
+  <script src="js/core/grade.js"></script>
+  <script src="js/core/validacao.js"></script>
+  <script src="js/core/matrizes.js"></script>
+
+  <script src="js/algoritmos/reta.js"></script>
+  <script src="js/algoritmos/polilinha.js"></script>
+  <script src="js/algoritmos/bezierQuadratica.js"></script>
+  <script src="js/algoritmos/bezierCubica.js"></script>
+  <script src="js/algoritmos/circunferencia.js"></script>
+  <script src="js/algoritmos/cubo.js"></script>
+  <script src="js/algoritmos/projecaoOrtogonal.js"></script>
+  <script src="js/algoritmos/projecaoObliqua.js"></script>
+  <script src="js/algoritmos/projecaoPerspectiva.js"></script>
+  <script src="js/algoritmos/poligono.js"></script>
+  <script src="js/algoritmos/translacao.js"></script>
+  <script src="js/algoritmos/escala.js"></script>
+  <script src="js/algoritmos/rotacaoPivo.js"></script>
+  <script src="js/algoritmos/elipse.js"></script>
+  <script src="js/algoritmos/recorteLinha.js"></script>
+  <script src="js/algoritmos/recortePoligono.js"></script>
+  <script src="js/algoritmos/preenchimento.js"></script>
+
+  <script src="js/ui/catalogo.js"></script>
+  <script src="js/ui/painel.js"></script>
+  <script src="js/ui/interacao.js"></script>
+  <script src="js/ui/principal.js"></script>
+
+</body>
+</html>

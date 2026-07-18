@@ -31,29 +31,37 @@ function recorteCohenSutherland(x0, y0, x1, y1, xmin, ymin, xmax, ymax) {
 
   while (true) {
     if ((codigo0 | codigo1) === 0) {
-      return { x0, y0, x1, y1 }; // os dois extremos estão dentro da janela
+      return { x0, y0, x1, y1 }; // OR zero: nenhum bit fora ligado em nenhum extremo — reta trivialmente dentro
     }
     if ((codigo0 & codigo1) !== 0) {
-      return null; // mesma região fora nos dois extremos: trivialmente fora
+      return null; // AND diferente de zero: os dois extremos compartilham a mesma região fora — trivialmente fora
     }
 
+    // nem trivialmente dentro nem fora: escolhe o extremo que está fora da
+    // janela (sempre existe pelo menos um, pelas duas checagens acima) e
+    // recorta esse extremo contra a aresta correspondente
     const codigoFora = codigo0 !== CS_DENTRO ? codigo0 : codigo1;
     let x, y;
 
+    // a ordem de checagem (cima, baixo, direita, esquerda) é arbitrária, mas
+    // precisa testar só um bit por vez — um ponto pode estar fora em dois
+    // eixos ao mesmo tempo (ex.: canto), e cada iteração resolve um deles
     if (codigoFora & CS_CIMA) {
-      x = x0 + (x1 - x0) * (ymax - y0) / (y1 - y0);
+      x = x0 + (x1 - x0) * (ymax - y0) / (y1 - y0); // interseção da reta com y = ymax
       y = ymax;
     } else if (codigoFora & CS_BAIXO) {
-      x = x0 + (x1 - x0) * (ymin - y0) / (y1 - y0);
+      x = x0 + (x1 - x0) * (ymin - y0) / (y1 - y0); // interseção com y = ymin
       y = ymin;
     } else if (codigoFora & CS_DIREITA) {
-      y = y0 + (y1 - y0) * (xmax - x0) / (x1 - x0);
+      y = y0 + (y1 - y0) * (xmax - x0) / (x1 - x0); // interseção com x = xmax
       x = xmax;
     } else {
-      y = y0 + (y1 - y0) * (xmin - x0) / (x1 - x0);
+      y = y0 + (y1 - y0) * (xmin - x0) / (x1 - x0); // interseção com x = xmin
       x = xmin;
     }
 
+    // substitui o extremo que estava fora pelo ponto de interseção e
+    // recalcula o código de região dele — a reta encolhe a cada iteração
     if (codigoFora === codigo0) {
       x0 = x; y0 = y;
       codigo0 = calcularCodigoRegiao(x0, y0, xmin, ymin, xmax, ymax);

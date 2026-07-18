@@ -24,17 +24,20 @@ function elipse(cx, cy, rx, ry, cor) {
 
   plotarQuatroQuadrantes(cx, cy, x, y, cor);
 
-  // região 1: |inclinação da tangente| < 1
+  // região 1: |inclinação da tangente| < 1 — a curva é "mais horizontal",
+  // então x avança sempre e o passo em y é decidido pelo critério d1
   let d1 = ry2 - rx2 * ry + 0.25 * rx2;
-  let dx = 2 * ry2 * x;
-  let dy = 2 * rx2 * y;
+  let dx = 2 * ry2 * x; // derivada parcial em x do critério de decisão, atualizada incrementalmente
+  let dy = 2 * rx2 * y; // idem para y — evita recalcular d1 do zero a cada passo
 
-  while (dx < dy) {
+  while (dx < dy) { // enquanto a tangente ainda tem inclinação < 1 (região 1)
     x++;
     dx += 2 * ry2;
     if (d1 < 0) {
+      // ponto médio ainda dentro da elipse: (x+1, y) já aproxima bem, y não muda
       d1 += dx + ry2;
     } else {
+      // ponto médio caiu fora: (x+1, y-1) aproxima melhor, y também recua
       y--;
       dy -= 2 * rx2;
       d1 += dx - dy + ry2;
@@ -42,15 +45,18 @@ function elipse(cx, cy, rx, ry, cor) {
     plotarQuatroQuadrantes(cx, cy, x, y, cor);
   }
 
-  // região 2: |inclinação da tangente| >= 1
+  // região 2: |inclinação da tangente| >= 1 — a curva fica "mais vertical",
+  // então o papel se inverte: y avança sempre e o passo em x é decidido por d2
   let d2 = ry2 * (x + 0.5) * (x + 0.5) + rx2 * (y - 1) * (y - 1) - rx2 * ry2;
 
   while (y > 0) {
     y--;
     dy -= 2 * rx2;
     if (d2 > 0) {
+      // ponto médio ainda fora da elipse (do lado de dentro da curvatura): x não muda
       d2 += rx2 - dy;
     } else {
+      // ponto médio já cruzou para dentro: x também avança
       x++;
       dx += 2 * ry2;
       d2 += dx - dy + rx2;

@@ -10,6 +10,10 @@
 function escala(pontos, sx, sy, fixoX, fixoY, corOriginal, corTransformada) {
   poligono(pontos, corOriginal);
 
+  // multiplicação de matriz não é comutativa: a ordem lida da direita para a
+  // esquerda é a ordem em que as transformações realmente acontecem no ponto
+  // — primeiro leva o ponto fixo para a origem, depois escala, depois desfaz
+  // a translação, devolvendo o ponto fixo ao lugar original
   const m = multiplicarMatrizes(
     matrizTranslacao(fixoX, fixoY),
     multiplicarMatrizes(matrizEscala(sx, sy), matrizTranslacao(-fixoX, -fixoY))

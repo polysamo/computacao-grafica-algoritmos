@@ -22,13 +22,17 @@ function circunferencia(cx, cy, raio, cor) {
 
   while (x < y) {
     if (d < 0) {
+      // ponto médio ainda está dentro do círculo: o próximo pixel horizontal
+      // (x+1, y) já é a melhor aproximação, y não muda
       d += 2 * x + 3;
     } else {
+      // ponto médio caiu fora do círculo: o pixel diagonal (x+1, y-1) é que
+      // aproxima melhor a curva, então y também recua
       d += 2 * (x - y) + 5;
       y--;
     }
     x++;
-    plotarOitoOctantes(cx, cy, x, y, cor);
+    plotarOitoOctantes(cx, cy, x, y, cor); // replica o par (x, y) recém-calculado nos 8 octantes
   }
 }
 

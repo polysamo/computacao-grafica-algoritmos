@@ -10,7 +10,7 @@
 function poligono(pontos, cor) {
   for (let i = 0; i < pontos.length; i++) {
     const atual = pontos[i];
-    const proximo = pontos[(i + 1) % pontos.length];
+    const proximo = pontos[(i + 1) % pontos.length]; // módulo faz o índice voltar a 0 no último vértice, fechando a figura
     bresenham(atual.x, atual.y, proximo.x, proximo.y, cor);
   }
 }

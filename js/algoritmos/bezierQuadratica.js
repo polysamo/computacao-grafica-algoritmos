@@ -16,11 +16,13 @@ function bezierQuadratica(p0, p1, p2, cor) {
   let anteriorY = p0.y;
 
   for (let i = 1; i <= passos; i++) {
-    const t = i * PASSO_BEZIER;
+    const t = i * PASSO_BEZIER; // fração já percorrida da curva neste passo, de 0 a 1
     const u = 1 - t;
+    // coeficientes de Bernstein (u², 2ut, t²): pesos que somam 1 e fazem o
+    // ponto migrar de P0 (t=0) para P2 (t=1) sendo "puxado" por P1 no meio
     const x = Math.round(u * u * p0.x + 2 * u * t * p1.x + t * t * p2.x);
     const y = Math.round(u * u * p0.y + 2 * u * t * p1.y + t * t * p2.y);
-    bresenham(anteriorX, anteriorY, x, y, cor);
+    bresenham(anteriorX, anteriorY, x, y, cor); // liga o ponto amostrado anterior ao atual: a curva é uma polilinha fina
     anteriorX = x;
     anteriorY = y;
   }

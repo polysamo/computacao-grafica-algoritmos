@@ -22,12 +22,17 @@ function recortarContraAresta(pontos, dentroFn, interseccaoFn) {
 
     if (atualDentro) {
       if (!anteriorDentro) {
+        // aresta entrando na região visível: a interseção marca onde a
+        // aresta cruzou o limite, e precisa vir antes do vértice atual
         saida.push(interseccaoFn(anterior, atual));
       }
-      saida.push(atual);
+      saida.push(atual); // vértice atual está do lado visível: sempre mantido
     } else if (anteriorDentro) {
+      // aresta saindo da região visível: guarda só o ponto de corte,
+      // o vértice atual (fora) é descartado
       saida.push(interseccaoFn(anterior, atual));
     }
+    // os dois extremos fora da região: aresta inteira descartada, nada é adicionado
   }
 
   return saida;

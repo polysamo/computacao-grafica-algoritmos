@@ -10,6 +10,9 @@
 function projecaoPerspectiva(anguloX, anguloY, d, cor) {
   const pontos2D = CUBO_VERTICES.map(function (v) {
     const r = rotacionarVertice(v, anguloX, anguloY);
+    // fator d/(d+z): vértices com z maior (mais distantes do observador,
+    // que fica em z = -d) encolhem mais — é essa razão, não uma subtração
+    // fixa, que faz as arestas convergirem para o ponto de fuga na origem
     const x = (r.x * d) / (d + r.z);
     const y = (r.y * d) / (d + r.z);
     return { x: Math.round(x), y: Math.round(y) };

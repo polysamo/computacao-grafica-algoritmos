@@ -12,21 +12,23 @@ function preenchimento(semente, cor) {
   const pilha = [{ x: Math.round(semente.x), y: Math.round(semente.y) }];
 
   while (pilha.length > 0) {
-    const p = pilha.pop();
+    const p = pilha.pop(); // LIFO: aprofunda numa direção até travar, depois retrocede — não precisa de recursão
     const xi = p.x;
     const yi = p.y;
 
-    if (xi <= -DOMINIO || xi >= DOMINIO || yi <= -DOMINIO || yi >= DOMINIO) continue;
+    if (xi <= -DOMINIO || xi >= DOMINIO || yi <= -DOMINIO || yi >= DOMINIO) continue; // célula fora da grade, ignora
 
     const i = xi + OFFSET;
     const j = yi + OFFSET;
-    if (pintado[i][j]) continue; // já é borda ou já foi preenchida
+    if (pintado[i][j]) continue; // já é borda ou já foi preenchida, não reprocessa
 
-    setPixel(xi, yi, cor);
+    setPixel(xi, yi, cor); // marca esta célula antes de empilhar os vizinhos, evitando reentrar nela
 
-    pilha.push({ x: xi + 1, y: yi });
-    pilha.push({ x: xi - 1, y: yi });
-    pilha.push({ x: xi, y: yi + 1 });
-    pilha.push({ x: xi, y: yi - 1 });
+    // empilha os 4 vizinhos ortogonais; cada um só é de fato pintado quando
+    // sair da pilha e passar pelas checagens de domínio/pintado acima
+    pilha.push({ x: xi + 1, y: yi }); // direita
+    pilha.push({ x: xi - 1, y: yi }); // esquerda
+    pilha.push({ x: xi, y: yi + 1 }); // acima (y cresce para cima nas coordenadas de mundo)
+    pilha.push({ x: xi, y: yi - 1 }); // abaixo
   }
 }

@@ -11,7 +11,7 @@ function translacao(pontos, dx, dy, corOriginal, corTransformada) {
 
   const m = matrizTranslacao(dx, dy);
   const transformado = pontos.map(function (p) {
-    return aplicarMatriz(m, p);
+    return aplicarMatriz(m, p); // mesma matriz para todos os vértices, cada um transformado independentemente
   });
 
   poligono(transformado, corTransformada);

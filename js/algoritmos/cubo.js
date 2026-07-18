@@ -29,12 +29,15 @@ function rotacionarVertice(v, anguloXGraus, anguloYGraus) {
   const radX = anguloXGraus * Math.PI / 180;
   const radY = anguloYGraus * Math.PI / 180;
 
-  // rotação em X
+  // rotação em X: gira o par (y, z) em torno do eixo x, que fica parado;
+  // é a mesma rotação 2D de sempre, só que aplicada ao plano yz
   const y1 = v.y * Math.cos(radX) - v.z * Math.sin(radX);
   const z1 = v.y * Math.sin(radX) + v.z * Math.cos(radX);
   const x1 = v.x;
 
-  // rotação em Y
+  // rotação em Y: gira o par (x, z) já rotacionado em torno do eixo y;
+  // usa x1/z1 (saída do passo anterior), não os valores originais de v —
+  // as duas rotações são aplicadas em sequência, não simultaneamente
   const x2 = x1 * Math.cos(radY) + z1 * Math.sin(radY);
   const z2 = -x1 * Math.sin(radY) + z1 * Math.cos(radY);
   const y2 = y1;

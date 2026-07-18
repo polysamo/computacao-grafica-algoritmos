@@ -11,6 +11,9 @@
 function rotacaoPivo(pontos, anguloGraus, pivoX, pivoY, corOriginal, corTransformada) {
   poligono(pontos, corOriginal);
 
+  // lida da direita para a esquerda: leva o pivô para a origem, gira em
+  // torno da origem (única rotação que a matriz sabe fazer), e translada de
+  // volta — a mesma composição usada em escala(), só trocando a matriz do meio
   const m = multiplicarMatrizes(
     matrizTranslacao(pivoX, pivoY),
     multiplicarMatrizes(matrizRotacao(anguloGraus), matrizTranslacao(-pivoX, -pivoY))

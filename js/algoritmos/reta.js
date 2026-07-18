@@ -15,12 +15,12 @@ function bresenham(x0, y0, x1, y1, cor, tracejado) {
   x0 = Math.round(x0); y0 = Math.round(y0);
   x1 = Math.round(x1); y1 = Math.round(y1);
 
-  const dx = Math.abs(x1 - x0);
-  const dy = -Math.abs(y1 - y0);
-  const sx = x0 < x1 ? 1 : -1;
-  const sy = y0 < y1 ? 1 : -1;
+  const dx = Math.abs(x1 - x0);   // extensão do segmento no eixo x
+  const dy = -Math.abs(y1 - y0);  // extensão no eixo y, guardada negativa só para simplificar as comparações do laço
+  const sx = x0 < x1 ? 1 : -1;    // sentido do avanço em x
+  const sy = y0 < y1 ? 1 : -1;    // sentido do avanço em y
 
-  let erro = dx + dy;
+  let erro = dx + dy; // erro acumulado entre a reta ideal e o último pixel plotado
   let x = x0, y = y0;
   let passo = 0;
 
@@ -30,8 +30,12 @@ function bresenham(x0, y0, x1, y1, cor, tracejado) {
     }
     passo++;
     if (x === x1 && y === y1) break;
+
     const e2 = 2 * erro;
-    if (e2 >= dy) { erro += dy; x += sx; }
-    if (e2 <= dx) { erro += dx; y += sy; }
+    // os dois testes são independentes (não é if/else): numa reta próxima da
+    // diagonal, ambos disparam no mesmo passo e x e y avançam juntos — é
+    // essa combinação que cobre os 8 octantes com um único laço
+    if (e2 >= dy) { erro += dy; x += sx; } // erro ainda comporta andar em x sem sair da reta ideal
+    if (e2 <= dx) { erro += dx; y += sy; } // erro ainda comporta andar em y sem sair da reta ideal
   }
 }
